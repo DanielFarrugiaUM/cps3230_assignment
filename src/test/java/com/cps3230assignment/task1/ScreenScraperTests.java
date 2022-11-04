@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.openqa.selenium.WebDriver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,14 @@ public class ScreenScraperTests {
 
     @Test
     public void testGetProducts(){
+        //Setup
+        WebDriver webDriver = Mockito.mock(WebDriver.class);
+        ss.setWebDriver(webDriver);
 
+        //Exercise
+        List<Alert> alerts = ss.getFiveProductsAsAlerts(AlertType.BOAT, "boat");
+        //Verify
+        Assertions.assertEquals(5, alerts.size());
     }
 
     @Test
@@ -39,7 +47,7 @@ public class ScreenScraperTests {
         ss.setMarketAlertClient(maClient);
         //Dummy Data
         Alert alert = new Alert();
-        alert.setAlertType(AlertType.ELECTRONICS);
+        alert.setAlertType(AlertType.ELECTRONICS.value());
         alert.setHeading("Jumper Windows 11 Laptop");
         alert.setDescription("Jumper Windows 11 Laptop 1080P Display,12GB RAM 256GB SSD");
         alert.setUrl("https://www.amazon.co.uk/Windows-Display-Ultrabook-Processor-Bluetooth");
@@ -91,5 +99,5 @@ public class ScreenScraperTests {
         Mockito.verify(maClient, Mockito.times(3)).postAlert(any(Alert.class));
         Mockito.verify(maClient).purgeAlerts();
     }
-
+    //@TODO consider other status codes
 }

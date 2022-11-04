@@ -14,6 +14,15 @@ public class MarketAlertClient implements IAlertClient{
     private String userId = "d9bad528-b70f-4321-a1c5-e4977a2e2bed";
     @Override
     public HttpResponse<PostAlertResponse> postAlert(Alert alert) {
+        String json = "{\n" +
+                "\"alertType\": 6,\n" +
+                "\"heading\": \"Jumper Windows 11 Laptop\",\n" +
+                "\"description\": \"Jumper Windows 11 Laptop 1080P Display,12GB RAM 256GB SSD\",\n" +
+                "\"url\": \"https://www.amazon.co.uk/Windows-Display-Ultrabook-Processor-Bluetooth\",\n" +
+                "\"imageUrl\" : \"https://m.media-amazon.com/images/I/712Xf2LtbJL._AC_SX679_.jpg\",\n" +
+                "\"postedBy\": \"d9bad528-b70f-4321-a1c5-e4977a2e2bed\",\n" +
+                "\"priceInCents\": 24999\n" +
+                "}";
         Unirest.config().defaultBaseUrl(baseURL);
         HttpResponse<PostAlertResponse> response = Unirest.post("/Alert")
                 .header("Content-Type", "application/json")
@@ -25,7 +34,7 @@ public class MarketAlertClient implements IAlertClient{
     @Override
     public HttpResponse<JsonNode> purgeAlerts() {
         Unirest.config().defaultBaseUrl(baseURL);
-        HttpResponse<JsonNode> response = Unirest.delete("/Alert?={userId}")
+        HttpResponse<JsonNode> response = Unirest.delete("/Alert?userId={userId}")
                 .routeParam("userId", userId).asJson();
         return response;
     }

@@ -1,7 +1,7 @@
 package com.cps3230assignment.task1.models;
 
 public class Alert {
-    private AlertType alertType;
+    private int alertType;
     private String heading;
     private String description;
     private String url;
@@ -9,10 +9,24 @@ public class Alert {
     private String postedBy;
     private int priceInCents;
 
+    public Alert(){
+
+    }
+
+    public Alert(int alertType, String heading, String description, String url,
+                 String imageUrl, String postedBy, int priceInCents){
+        this.alertType = alertType;
+        this.heading = heading;
+        this.description = description;
+        this.url = url;
+        this.imageUrl = imageUrl;
+        this.postedBy = postedBy;
+        this.priceInCents = priceInCents;
+    }
 
     // Getter Methods
 
-    public AlertType getAlertType() {
+    public int getAlertType() {
         return alertType;
     }
 
@@ -42,7 +56,7 @@ public class Alert {
 
     // Setter Methods
 
-    public void setAlertType(AlertType alertType) {
+    public void setAlertType(int alertType) {
         this.alertType = alertType;
     }
 
