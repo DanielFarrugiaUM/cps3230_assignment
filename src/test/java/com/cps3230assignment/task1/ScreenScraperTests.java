@@ -3,18 +3,25 @@ package com.cps3230assignment.task1;
 import com.cps3230assignment.task1.models.Alert;
 import com.cps3230assignment.task1.models.AlertType;
 import com.cps3230assignment.task1.models.PostAlertResponse;
+import com.cps3230assignment.task1.models.Product;
+import com.cps3230assignment.task1.page_objects.ClassifiedsPane;
+import com.cps3230assignment.task1.page_objects.MaltaparkHomePage;
 import com.cps3230assignment.task1.utils.IAlertClient;
 import kong.unirest.HttpResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.Any;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 public class ScreenScraperTests {
     ScreenScraper ss;
@@ -24,15 +31,47 @@ public class ScreenScraperTests {
     }
 
     @Test
-    public void testGetProducts(){
+    public void testGetProducts() throws InterruptedException {
         //Setup
         WebDriver webDriver = Mockito.mock(WebDriver.class);
+        //Stop web driver from communicating across network
+        doNothing().when(webDriver).get(anyString());
         ss.setWebDriver(webDriver);
+
+        //Create mock Dependent-upon components from web
+        MaltaparkHomePage homePage = Mockito.mock(MaltaparkHomePage.class);
+        homePage.setWebDriver(webDriver);
+        ss.setHomePage(homePage);
+
+        ClassifiedsPane classifiedsPane = Mockito.mock(ClassifiedsPane.class);
+        classifiedsPane.setWebDriver(webDriver);
+        WebElement dummyClassifieds = mock(WebElement.class);
+        classifiedsPane.setClassifieds(dummyClassifieds);
+
+        when(homePage.getClassifiedsPane()).thenReturn(classifiedsPane);
+        //Prepare some dummy data for mocks to return
+        Product dummyProduct = new Product(
+                "Dummy Heading",
+                "description",
+                "dummy.com",
+                "iamgeUrl.com",
+                "400"
+
+        );
+        List<WebElement> dummyItems = new ArrayList<>();
+        WebElement dummyItem = mock(WebElement.class);
+        for (int i = 0; i < 5; i++) {
+            dummyItems.add(dummyItem);
+        }
+        when(classifiedsPane.getItems()).thenReturn(dummyItems);
+        when(classifiedsPane.getProduct(dummyItem)).thenReturn(dummyProduct);
 
         //Exercise
         List<Alert> alerts = ss.getFiveProductsAsAlerts(AlertType.BOAT, "boat");
         //Verify
         Assertions.assertEquals(5, alerts.size());
+        Mockito.verify(homePage).getClassifiedsPane();
+        Mockito.verify(classifiedsPane, times(5)).getProduct(any(WebElement.class));
     }
 
     @Test

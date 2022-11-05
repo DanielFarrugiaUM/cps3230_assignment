@@ -20,6 +20,7 @@ import java.util.List;
 public class ScreenScraper {
     private IAlertClient maClient;
     private WebDriver webDriver;
+    private MaltaparkHomePage homePage;
 
     public void setMarketAlertClient(IAlertClient maClient) {
         this.maClient = maClient;
@@ -29,6 +30,8 @@ public class ScreenScraper {
         this.webDriver = webDriver;
     }
 
+    public void setHomePage(MaltaparkHomePage page){ this.homePage = page; }
+
     //Visit website
     //Scrape results
     public List<Alert> getFiveProductsAsAlerts(AlertType alertType, String searchTerm){
@@ -36,7 +39,13 @@ public class ScreenScraper {
 
         webDriver.get(Constants.WEB_PAGE_ADDRESS.value());
 
-        MaltaparkHomePage homePage = new MaltaparkHomePage();
+        //In unit test we want to use the home page
+        // injected by setter; but in prod it would be
+        // inconvenient to set a home page object and inject it
+        if(homePage == null){
+            homePage = new MaltaparkHomePage();
+        }
+
         homePage.setWebDriver(webDriver);
 
         //@TODO can do a test case if the site changes wait time
@@ -49,7 +58,7 @@ public class ScreenScraper {
         homePage.search(searchTerm);
         ClassifiedsPane classifiedsPane = homePage.getClassifiedsPane();
         List<WebElement> items = classifiedsPane.getItems();
-        Product[] products = new Product[5];
+
         for (int i = 0; i < 5; i++) {
             Product product = classifiedsPane.getProduct(items.get(i));
             Alert alert = convertProductToAlert(product, alertType);
