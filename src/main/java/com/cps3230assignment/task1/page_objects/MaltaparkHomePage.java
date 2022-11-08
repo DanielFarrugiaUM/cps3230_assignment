@@ -20,15 +20,15 @@ public class MaltaparkHomePage {
     }
 
     public void skipWarning() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
-        //While I am aware that the way to wait is not the following
-        //the design of the website made it impossible to reach with the
-        //proper methods, since the click was being intercepted by some other element.
-        //The code as meant to be without the thread wait is still included,
-        //but will not work.
-        Thread.sleep(10000);
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("okbutton"))).click();
-        ;
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
+        //While the following looks dodgy (as it is), I could find no
+        // other way to access the close button using wait. This is
+        // probably due to how JS is manipulating the element in question.
+        // The button appears and is covered immediately, so once it is
+        // located it cannot be clicked. Therefor, wait for the state just
+        // before it becomes clickable, and then get the clickable state.
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Close (1)')]")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Close')]"))).click();
     }
 
     public void search(String term){
