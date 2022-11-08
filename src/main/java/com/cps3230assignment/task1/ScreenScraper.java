@@ -1,15 +1,12 @@
 package com.cps3230assignment.task1;
 
-import com.beust.ah.A;
 import com.cps3230assignment.Constants;
 import com.cps3230assignment.task1.models.Alert;
 import com.cps3230assignment.task1.models.AlertType;
-import com.cps3230assignment.task1.models.PostAlertResponse;
 import com.cps3230assignment.task1.models.Product;
 import com.cps3230assignment.task1.page_objects.ClassifiedsPane;
 import com.cps3230assignment.task1.page_objects.MaltaparkHomePage;
 import com.cps3230assignment.task1.utils.IAlertClient;
-import com.cps3230assignment.task1.utils.MarketAlertClient;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import org.openqa.selenium.WebDriver;
@@ -58,10 +55,10 @@ public class ScreenScraper {
 
         homePage.search(searchTerm);
         ClassifiedsPane classifiedsPane = homePage.getClassifiedsPane();
-        List<WebElement> items = classifiedsPane.getItems();
+        List<String> itemsUrls = classifiedsPane.getItemsUrls();
 
         for (int i = 0; i < 5; i++) {
-            Product product = classifiedsPane.getProduct(items.get(i));
+            Product product = classifiedsPane.getProduct(itemsUrls.get(i));
             Alert alert = convertProductToAlert(product, alertType);
             result.add(alert);
         }

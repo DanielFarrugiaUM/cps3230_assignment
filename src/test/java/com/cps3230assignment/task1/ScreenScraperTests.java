@@ -2,7 +2,6 @@ package com.cps3230assignment.task1;
 
 import com.cps3230assignment.task1.models.Alert;
 import com.cps3230assignment.task1.models.AlertType;
-import com.cps3230assignment.task1.models.PostAlertResponse;
 import com.cps3230assignment.task1.models.Product;
 import com.cps3230assignment.task1.page_objects.ClassifiedsPane;
 import com.cps3230assignment.task1.page_objects.MaltaparkHomePage;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Any;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -59,20 +57,20 @@ public class ScreenScraperTests {
                 "400"
 
         );
-        List<WebElement> dummyItems = new ArrayList<>();
-        WebElement dummyItem = mock(WebElement.class);
+
+        List<String> dummyUrls = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            dummyItems.add(dummyItem);
+            dummyUrls.add("dummy url");
         }
-        when(classifiedsPane.getItems()).thenReturn(dummyItems);
-        when(classifiedsPane.getProduct(dummyItem)).thenReturn(dummyProduct);
+        when(classifiedsPane.getItemsUrls()).thenReturn(dummyUrls);
+        when(classifiedsPane.getProduct(anyString())).thenReturn(dummyProduct);
 
         //Exercise
         List<Alert> alerts = ss.getFiveProductsAsAlerts(AlertType.BOAT, "boat");
         //Verify
         Assertions.assertEquals(5, alerts.size());
         Mockito.verify(homePage).getClassifiedsPane();
-        Mockito.verify(classifiedsPane, times(5)).getProduct(any(WebElement.class));
+        Mockito.verify(classifiedsPane, times(5)).getProduct(anyString());
     }
 
     @Test

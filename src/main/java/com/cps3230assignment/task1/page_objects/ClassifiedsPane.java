@@ -4,7 +4,6 @@ import com.cps3230assignment.task1.models.Product;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -36,19 +35,26 @@ public class ClassifiedsPane {
     public void setClassifieds(WebElement classifieds){
         this.classifieds = classifieds;
     }
-    public List<WebElement> getItems(){
-        return  classifieds.findElements(By.className("item"));
+    public List<String> getItemsUrls(){
+        List<String> urls = new ArrayList<>();
+        List<WebElement> items = classifieds.findElements(By.className("item"));
+        for (WebElement item:
+            items) {
+            List<WebElement> linkTag = item.findElements(By.className("imagelink"));
+            if (linkTag.size() > 0){
+                String url = linkTag.get(0).getAttribute("href");
+                urls.add(url);
+            }
+
+        }
+        return  urls;
     }
 
-    public Product getProduct(WebElement item){
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(2));
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    public Product getProduct(String itemUrl){
+
         //@TODO debug here
-        item.findElement(By.className("innerimage")).click();
+        webDriver.get(itemUrl);
+        //item.findElement(By.className("innerimage")).click();
 
         String heading =
                 webDriver.findElement(By.className("top-title")).findElement(By.tagName("span")).getText();
