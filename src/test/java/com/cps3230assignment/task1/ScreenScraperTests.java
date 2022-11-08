@@ -8,6 +8,7 @@ import com.cps3230assignment.task1.page_objects.ClassifiedsPane;
 import com.cps3230assignment.task1.page_objects.MaltaparkHomePage;
 import com.cps3230assignment.task1.utils.IAlertClient;
 import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,7 +80,7 @@ public class ScreenScraperTests {
         //Setup
         //Dependency mocks and behaviours
         IAlertClient maClient = Mockito.mock(IAlertClient.class);
-        HttpResponse<PostAlertResponse> response = Mockito.mock(HttpResponse.class);
+        HttpResponse<JsonNode> response = Mockito.mock(HttpResponse.class);
         Mockito.when(response.getStatus()).thenReturn(201);
         Mockito.when(maClient.postAlert(any(Alert.class))).thenReturn(response);
 
@@ -112,9 +113,9 @@ public class ScreenScraperTests {
         //Setup
         //Dependency mocks and behaviours
         IAlertClient maClient = Mockito.mock(IAlertClient.class);
-        HttpResponse<PostAlertResponse> successfulResponse = Mockito.mock(HttpResponse.class);
+        HttpResponse<JsonNode> successfulResponse = Mockito.mock(HttpResponse.class);
         Mockito.when(successfulResponse.getStatus()).thenReturn(201);
-        HttpResponse<PostAlertResponse> failureResponse = Mockito.mock(HttpResponse.class);
+        HttpResponse<JsonNode> failureResponse = Mockito.mock(HttpResponse.class);
         Mockito.when(failureResponse.getStatus()).thenReturn(400);
 
         ss.setMarketAlertClient(maClient);

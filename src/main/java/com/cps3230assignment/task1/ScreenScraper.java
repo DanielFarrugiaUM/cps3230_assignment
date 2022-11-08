@@ -11,6 +11,7 @@ import com.cps3230assignment.task1.page_objects.MaltaparkHomePage;
 import com.cps3230assignment.task1.utils.IAlertClient;
 import com.cps3230assignment.task1.utils.MarketAlertClient;
 import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -71,7 +72,7 @@ public class ScreenScraper {
 
         for (int i = 0; i < 5; i++) {
             Alert currentAlert = alerts.get(i);
-            HttpResponse<PostAlertResponse> response = maClient.postAlert(currentAlert);
+            HttpResponse<JsonNode> response = maClient.postAlert(currentAlert);
             if(response.getStatus() != 201){
                 maClient.purgeAlerts();
                 return false;

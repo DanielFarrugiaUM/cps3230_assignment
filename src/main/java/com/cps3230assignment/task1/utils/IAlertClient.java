@@ -6,6 +6,6 @@ import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 
 public interface IAlertClient {
-    public HttpResponse<PostAlertResponse> postAlert(Alert alert);
+    public HttpResponse<JsonNode> postAlert(Alert alert);
     public HttpResponse<JsonNode> purgeAlerts();
 }
