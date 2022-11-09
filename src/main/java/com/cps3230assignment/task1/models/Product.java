@@ -39,36 +39,16 @@ public class Product {
         return heading;
     }
 
-    public void setHeading(String heading) {
-        this.heading = heading;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getPrice() {
-        return price;
     }
 
     public void setPrice(String price) {

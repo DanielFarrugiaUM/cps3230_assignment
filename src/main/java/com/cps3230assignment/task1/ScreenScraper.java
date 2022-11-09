@@ -32,10 +32,15 @@ public class ScreenScraper {
 
     //Visit website
     //Scrape results
-    public List<Alert> getFiveProductsAsAlerts(AlertType alertType, String searchTerm){
+    public List<Alert> getFiveProductsAsAlerts(AlertType alertType, String searchTerm) throws Exception {
         List<Alert> result = new ArrayList<>();
 
-        webDriver.get(Constants.WEB_PAGE_ADDRESS.value());
+        try{
+            webDriver.get(Constants.WEB_PAGE_ADDRESS.value());
+        }catch (Exception ex){
+            throw new Exception("Could not get webpage.");
+        }
+
 
         //In unit test we want to use the home page
         // injected by setter; but in prod it would be
@@ -46,15 +51,20 @@ public class ScreenScraper {
 
         homePage.setWebDriver(webDriver);
 
-        //@TODO can do a test case if the site changes wait time
         try {
             homePage.skipWarning();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new Exception(e);
         }
 
-        homePage.search(searchTerm);
-        ClassifiedsPane classifiedsPane = homePage.getClassifiedsPane();
+        ClassifiedsPane classifiedsPane;
+        try{
+            homePage.search(searchTerm);
+            classifiedsPane = homePage.getClassifiedsPane();
+        }catch (Exception ex){
+            throw new Exception(ex);
+        }
+
         List<String> itemsUrls = classifiedsPane.getItemsUrls();
 
         for (int i = 0; i < 5; i++) {

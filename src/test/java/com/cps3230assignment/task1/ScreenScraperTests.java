@@ -1,5 +1,6 @@
 package com.cps3230assignment.task1;
 
+import com.cps3230assignment.Constants;
 import com.cps3230assignment.task1.models.Alert;
 import com.cps3230assignment.task1.models.AlertType;
 import com.cps3230assignment.task1.models.Product;
@@ -13,10 +14,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -30,7 +33,7 @@ public class ScreenScraperTests {
     }
 
     @Test
-    public void testGetProducts() throws InterruptedException {
+    public void testGetProducts() throws Exception {
         //Setup
         WebDriver webDriver = Mockito.mock(WebDriver.class);
         //Stop web driver from communicating across network
@@ -64,9 +67,14 @@ public class ScreenScraperTests {
         }
         when(classifiedsPane.getItemsUrls()).thenReturn(dummyUrls);
         when(classifiedsPane.getProduct(anyString())).thenReturn(dummyProduct);
-
+        List<Alert> alerts = new ArrayList<>();
         //Exercise
-        List<Alert> alerts = ss.getFiveProductsAsAlerts(AlertType.BOAT, "boat");
+        try {
+             alerts = ss.getFiveProductsAsAlerts(AlertType.BOAT, "boat");
+        }catch (Exception exception){
+            throw new RuntimeException(exception);
+        };
+
         //Verify
         Assertions.assertEquals(5, alerts.size());
         Mockito.verify(homePage).getClassifiedsPane();
@@ -74,6 +82,73 @@ public class ScreenScraperTests {
     }
 
     @Test
+    public void testGetProductsFailedToReachWebsite(){
+        //Setup
+        WebDriver webDriver = Mockito.mock(WebDriver.class);
+        doThrow(WebDriverException.class).when(webDriver).get(anyString());
+        ss.setWebDriver(webDriver);
+
+        //Exercise & Verify
+        Assertions.assertThrowsExactly(
+                Exception.class,
+                () -> ss.getFiveProductsAsAlerts(AlertType.BOAT, "boat")
+        );
+    }
+
+    @Test
+    public void testGetProductsFailedToSkipWarning() throws InterruptedException {
+        //Setup
+        WebDriver webDriver = Mockito.mock(WebDriver.class);
+        ss.setWebDriver(webDriver);
+
+        MaltaparkHomePage homePage = mock(MaltaparkHomePage.class);
+        doThrow(InterruptedException.class).when(homePage).skipWarning();
+        ss.setHomePage(homePage);
+
+        //Exercise & Verify
+        Assertions.assertThrowsExactly(
+                Exception.class,
+                () -> ss.getFiveProductsAsAlerts(AlertType.BOAT, "boat")
+        );
+    }
+
+    @Test
+    public void testGetProductsFailedToGetSearchResults() throws Exception {
+        //Setup
+        String term = "boat";
+
+        WebDriver webDriver = Mockito.mock(WebDriver.class);
+        ss.setWebDriver(webDriver);
+
+        MaltaparkHomePage homePage = mock(MaltaparkHomePage.class);
+        doThrow(Exception.class).when(homePage).search(term);
+        ss.setHomePage(homePage);
+
+        //Exercise & Verify
+        Assertions.assertThrowsExactly(
+                Exception.class,
+                () -> ss.getFiveProductsAsAlerts(AlertType.BOAT, term)
+        );
+    }
+
+    @Test
+    public void testGetProductsFailedToGetClassifiedsPane() throws Exception {
+        //Setup
+        WebDriver webDriver = Mockito.mock(WebDriver.class);
+        ss.setWebDriver(webDriver);
+
+        MaltaparkHomePage homePage = mock(MaltaparkHomePage.class);
+        doThrow(Exception.class).when(homePage).getClassifiedsPane();
+        ss.setHomePage(homePage);
+
+        //Exercise & Verify
+        Assertions.assertThrowsExactly(
+                Exception.class,
+                () -> ss.getFiveProductsAsAlerts(AlertType.BOAT, "boat")
+        );
+    }
+
+        @Test
     public void testUploadFiveAlerts(){
         //Setup
         //Dependency mocks and behaviours

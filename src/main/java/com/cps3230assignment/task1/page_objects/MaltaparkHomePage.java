@@ -25,20 +25,33 @@ public class MaltaparkHomePage {
         // other way to access the close button using wait. This is
         // probably due to how JS is manipulating the element in question.
         // The button appears and is covered immediately, so once it is
-        // located it cannot be clicked. Therefor, wait for the state just
+        // located it cannot be clicked. Therefore, wait for the state just
         // before it becomes clickable, and then get the clickable state.
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Close (1)')]")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Close')]"))).click();
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        By.xpath("//*[contains(text(), 'Close (1)')]")));
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        By.xpath("//*[contains(text(), 'Close')]"))).click();
     }
 
-    public void search(String term){
-        WebElement searchBar = webDriver.findElement(By.id("search"));
-        searchBar.sendKeys(term);
-        webDriver.findElement(By.className("btn-search")).click();
+    public void search(String term) throws Exception {
+        try{
+            WebElement searchBar = webDriver.findElement(By.id("search"));
+            searchBar.sendKeys(term);
+            webDriver.findElement(By.className("btn-search")).click();
+        }catch (Exception ex){
+            throw new Exception("Searching for '" + term + "' failed");
+        }
+
     }
 
-    public ClassifiedsPane getClassifiedsPane(){
-        WebElement classifieds = webDriver.findElement(By.className("classifieds"));
-        return new ClassifiedsPane(webDriver, classifieds);
+    public ClassifiedsPane getClassifiedsPane() throws Exception {
+        try{
+            WebElement classifieds = webDriver.findElement(By.className("classifieds"));
+            return new ClassifiedsPane(webDriver, classifieds);
+        }catch (Exception ex){
+            throw new Exception("Unable to get classifieds pane");
+        }
     }
 }

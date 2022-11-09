@@ -1,4 +1,4 @@
-package com.cps3230assignment.task1;
+package com.cps3230assignment.task1.models;
 
 import com.cps3230assignment.task1.models.Product;
 import org.junit.jupiter.api.Assertions;
