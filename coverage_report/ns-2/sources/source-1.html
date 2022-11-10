@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Alert</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.cps3230assignment.task1.models</a>
+</div>
+
+<h1>Coverage Summary for Class: Alert (com.cps3230assignment.task1.models)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Alert</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.cps3230assignment.task1.models;
+&nbsp;
+&nbsp;public class Alert {
+&nbsp;    private int alertType;
+&nbsp;    private String heading;
+&nbsp;    private String description;
+&nbsp;    private String url;
+&nbsp;    private String imageUrl;
+&nbsp;    private String postedBy;
+&nbsp;    private int priceInCents;
+&nbsp;
+<b class="fc">&nbsp;    public Alert(){</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public Alert(int alertType, String heading, String description, String url,
+<b class="fc">&nbsp;                 String imageUrl, String postedBy, int priceInCents){</b>
+<b class="fc">&nbsp;        this.alertType = alertType;</b>
+<b class="fc">&nbsp;        this.heading = heading;</b>
+<b class="fc">&nbsp;        this.description = description;</b>
+<b class="fc">&nbsp;        this.url = url;</b>
+<b class="fc">&nbsp;        this.imageUrl = imageUrl;</b>
+<b class="fc">&nbsp;        this.postedBy = postedBy;</b>
+<b class="fc">&nbsp;        this.priceInCents = priceInCents;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Setter Methods
+&nbsp;
+&nbsp;    public void setAlertType(int alertType) {
+<b class="fc">&nbsp;        this.alertType = alertType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHeading(String heading) {
+<b class="fc">&nbsp;        this.heading = heading;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDescription(String description) {
+<b class="fc">&nbsp;        this.description = description;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUrl(String url) {
+<b class="fc">&nbsp;        this.url = url;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setImageUrl(String imageUrl) {
+<b class="fc">&nbsp;        this.imageUrl = imageUrl;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPostedBy(String postedBy) {
+<b class="fc">&nbsp;        this.postedBy = postedBy;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPriceInCents(int priceInCents) {
+<b class="fc">&nbsp;        this.priceInCents = priceInCents;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-10 13:18</div>
+</div>
+</body>
+</html>

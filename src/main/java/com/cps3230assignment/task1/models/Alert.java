@@ -24,36 +24,6 @@ public class Alert {
         this.priceInCents = priceInCents;
     }
 
-    // Getter Methods
-
-    public int getAlertType() {
-        return alertType;
-    }
-
-    public String getHeading() {
-        return heading;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public String getPostedBy() {
-        return postedBy;
-    }
-
-    public float getPriceInCents() {
-        return priceInCents;
-    }
-
     // Setter Methods
 
     public void setAlertType(int alertType) {

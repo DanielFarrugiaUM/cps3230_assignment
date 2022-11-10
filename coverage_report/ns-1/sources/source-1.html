@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ScreenScraper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.cps3230assignment.task1</a>
+</div>
+
+<h1>Coverage Summary for Class: ScreenScraper (com.cps3230assignment.task1)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ScreenScraper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.6%
+  </span>
+  <span class="absValue">
+    (41/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.cps3230assignment.task1;
+&nbsp;
+&nbsp;import com.cps3230assignment.Constants;
+&nbsp;import com.cps3230assignment.task1.models.Alert;
+&nbsp;import com.cps3230assignment.task1.models.AlertType;
+&nbsp;import com.cps3230assignment.task1.models.Product;
+&nbsp;import com.cps3230assignment.task1.page_objects.ClassifiedsPane;
+&nbsp;import com.cps3230assignment.task1.page_objects.MaltaparkHomePage;
+&nbsp;import com.cps3230assignment.task1.utils.IAlertClient;
+&nbsp;import kong.unirest.HttpResponse;
+&nbsp;import kong.unirest.JsonNode;
+&nbsp;import org.openqa.selenium.WebDriver;
+&nbsp;import org.openqa.selenium.WebElement;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="fc">&nbsp;public class ScreenScraper {</b>
+&nbsp;    private IAlertClient maClient;
+&nbsp;    private WebDriver webDriver;
+&nbsp;    private MaltaparkHomePage homePage;
+&nbsp;
+&nbsp;    public void setMarketAlertClient(IAlertClient maClient) {
+<b class="fc">&nbsp;        this.maClient = maClient;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setWebDriver(WebDriver webDriver){
+<b class="fc">&nbsp;        this.webDriver = webDriver;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public void setHomePage(MaltaparkHomePage page){ this.homePage = page; }</b>
+&nbsp;
+&nbsp;    //Visit website
+&nbsp;    //Scrape results
+&nbsp;    public List&lt;Alert&gt; getFiveProductsAsAlerts(AlertType alertType, String searchTerm) throws Exception {
+<b class="fc">&nbsp;        List&lt;Alert&gt; result = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;        try{
+<b class="fc">&nbsp;            webDriver.get(Constants.WEB_PAGE_ADDRESS.value());</b>
+<b class="fc">&nbsp;        }catch (Exception ex){</b>
+<b class="fc">&nbsp;            throw new Exception(&quot;Could not get webpage.&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;
+&nbsp;        //In unit test we want to use the home page
+&nbsp;        // injected by setter; but in prod it would be
+&nbsp;        // inconvenient to set a home page object and inject it
+<b class="fc">&nbsp;        if(homePage == null){</b>
+<b class="nc">&nbsp;            homePage = new MaltaparkHomePage();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        homePage.setWebDriver(webDriver);</b>
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            homePage.skipWarning();</b>
+<b class="fc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="fc">&nbsp;            throw new Exception(e);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        ClassifiedsPane classifiedsPane;
+&nbsp;        try{
+<b class="fc">&nbsp;            homePage.search(searchTerm);</b>
+<b class="fc">&nbsp;            classifiedsPane = homePage.getClassifiedsPane();</b>
+<b class="fc">&nbsp;        }catch (Exception ex){</b>
+<b class="fc">&nbsp;            throw new Exception(ex);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;String&gt; itemsUrls = classifiedsPane.getItemsUrls();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            Product product = classifiedsPane.getProduct(itemsUrls.get(i));</b>
+<b class="fc">&nbsp;            Alert alert = convertProductToAlert(product, alertType);</b>
+<b class="fc">&nbsp;            result.add(alert);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;    public boolean uploadFiveAlerts(List&lt;Alert&gt; alerts){
+&nbsp;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            Alert currentAlert = alerts.get(i);</b>
+<b class="fc">&nbsp;            HttpResponse&lt;JsonNode&gt; response = maClient.postAlert(currentAlert);</b>
+<b class="fc">&nbsp;            if(response.getStatus() != 201){</b>
+<b class="fc">&nbsp;                maClient.purgeAlerts();</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Alert convertProductToAlert(Product product, AlertType type){
+<b class="fc">&nbsp;        return new Alert(</b>
+<b class="fc">&nbsp;                type.value(),</b>
+<b class="fc">&nbsp;                product.getHeading(),</b>
+<b class="fc">&nbsp;                product.getDescription(),</b>
+<b class="fc">&nbsp;                product.getUrl(),</b>
+<b class="fc">&nbsp;                product.getImageUrl(),</b>
+<b class="fc">&nbsp;                Constants.USER_ID.value(),</b>
+<b class="fc">&nbsp;                product.getPriceAsCents()</b>
+&nbsp;        );
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-10 13:18</div>
+</div>
+</body>
+</html>

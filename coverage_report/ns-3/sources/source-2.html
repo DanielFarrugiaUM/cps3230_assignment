@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MaltaparkHomePage</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.cps3230assignment.task1.page_objects</a>
+</div>
+
+<h1>Coverage Summary for Class: MaltaparkHomePage (com.cps3230assignment.task1.page_objects)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MaltaparkHomePage</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (14/21)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MaltaparkHomePage$MockitoMock$KBXQyk7O</td>
+  </tr>
+  <tr>
+    <td class="name">MaltaparkHomePage$MockitoMock$KBXQyk7O$auxiliary$67RQBnbZ</td>
+  </tr>
+  <tr>
+    <td class="name">MaltaparkHomePage$MockitoMock$KBXQyk7O$auxiliary$6xzcJKZC</td>
+  </tr>
+  <tr>
+    <td class="name">MaltaparkHomePage$MockitoMock$KBXQyk7O$auxiliary$dEJhUaiF</td>
+  </tr>
+  <tr>
+    <td class="name">MaltaparkHomePage$MockitoMock$KBXQyk7O$auxiliary$HFeM5Jln</td>
+  </tr>
+  <tr>
+    <td class="name">MaltaparkHomePage$MockitoMock$KBXQyk7O$auxiliary$wXgc3bNH</td>
+  </tr>
+  <tr>
+    <td class="name">MaltaparkHomePage$MockitoMock$KBXQyk7O$auxiliary$Ye9YGxt9</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (14/21)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.cps3230assignment.task1.page_objects;
+&nbsp;
+&nbsp;import com.cps3230assignment.Constants;
+&nbsp;import org.openqa.selenium.By;
+&nbsp;import org.openqa.selenium.WebDriver;
+&nbsp;import org.openqa.selenium.WebElement;
+&nbsp;import org.openqa.selenium.support.ui.ExpectedConditions;
+&nbsp;import org.openqa.selenium.support.ui.WebDriverWait;
+&nbsp;
+&nbsp;import java.time.Duration;
+&nbsp;
+<b class="fc">&nbsp;public class MaltaparkHomePage {</b>
+&nbsp;
+&nbsp;    WebDriver webDriver;
+<b class="fc">&nbsp;    private final String address = &quot;https://www.maltapark.com/&quot;;</b>
+&nbsp;
+&nbsp;    public void setWebDriver(WebDriver driver){
+<b class="fc">&nbsp;        System.setProperty(&quot;webdriver.chrome.driver&quot;, Constants.WEBDRIVER_PATH.value());</b>
+<b class="fc">&nbsp;        this.webDriver = driver;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void skipWarning() throws InterruptedException {
+<b class="nc">&nbsp;        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));</b>
+&nbsp;        //While the following looks dodgy (as it is), I could find no
+&nbsp;        // other way to access the close button using wait. This is
+&nbsp;        // probably due to how JS is manipulating the element in question.
+&nbsp;        // The button appears and is covered immediately, so once it is
+&nbsp;        // located it cannot be clicked. Therefore, wait for the state just
+&nbsp;        // before it becomes clickable, and then get the clickable state.
+<b class="nc">&nbsp;        wait.until(ExpectedConditions</b>
+<b class="nc">&nbsp;                .visibilityOfElementLocated(</b>
+<b class="nc">&nbsp;                        By.xpath(&quot;//*[contains(text(), &#39;Close (1)&#39;)]&quot;)));</b>
+<b class="nc">&nbsp;        wait.until(ExpectedConditions</b>
+<b class="nc">&nbsp;                .visibilityOfElementLocated(</b>
+<b class="nc">&nbsp;                        By.xpath(&quot;//*[contains(text(), &#39;Close&#39;)]&quot;))).click();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void search(String term) throws Exception {
+&nbsp;        try{
+<b class="fc">&nbsp;            WebElement searchBar = webDriver.findElement(By.id(&quot;search&quot;));</b>
+<b class="fc">&nbsp;            searchBar.sendKeys(term);</b>
+<b class="fc">&nbsp;            webDriver.findElement(By.className(&quot;btn-search&quot;)).click();</b>
+<b class="fc">&nbsp;        }catch (Exception ex){</b>
+<b class="fc">&nbsp;            throw new Exception(&quot;Searching for &#39;&quot; + term + &quot;&#39; failed&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public ClassifiedsPane getClassifiedsPane() throws Exception {
+&nbsp;        try{
+<b class="fc">&nbsp;            WebElement classifieds = webDriver.findElement(By.className(&quot;classifieds&quot;));</b>
+<b class="fc">&nbsp;            return new ClassifiedsPane(webDriver, classifieds);</b>
+<b class="fc">&nbsp;        }catch (Exception ex){</b>
+<b class="fc">&nbsp;            throw new Exception(&quot;Unable to get classifieds pane&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-10 13:18</div>
+</div>
+</body>
+</html>

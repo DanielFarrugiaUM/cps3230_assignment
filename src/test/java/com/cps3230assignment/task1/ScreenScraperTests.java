@@ -212,5 +212,4 @@ public class ScreenScraperTests {
         Mockito.verify(maClient, Mockito.times(3)).postAlert(any(Alert.class));
         Mockito.verify(maClient).purgeAlerts();
     }
-    //@TODO consider other status codes
 }

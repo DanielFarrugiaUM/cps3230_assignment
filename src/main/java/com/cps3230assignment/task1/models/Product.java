@@ -22,6 +22,9 @@ public class Product {
 
     public int getPriceAsCents(){
         String trimmedPrice = price.trim();
+        if(trimmedPrice.equals("")){
+            return 0;
+        }
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < trimmedPrice.length(); i++) {
             char temp = trimmedPrice.charAt(i);

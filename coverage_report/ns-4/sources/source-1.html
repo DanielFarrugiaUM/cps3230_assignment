@@ -1,0 +1,133 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MarketAlertClient</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.cps3230assignment.task1.utils</a>
+</div>
+
+<h1>Coverage Summary for Class: MarketAlertClient (com.cps3230assignment.task1.utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MarketAlertClient</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.cps3230assignment.task1.utils;
+&nbsp;
+&nbsp;import com.cps3230assignment.Constants;
+&nbsp;import com.cps3230assignment.task1.models.Alert;
+&nbsp;import kong.unirest.HttpResponse;
+&nbsp;import kong.unirest.JsonNode;
+&nbsp;import kong.unirest.Unirest;
+&nbsp;
+<b class="nc">&nbsp;public class MarketAlertClient implements IAlertClient{</b>
+&nbsp;
+<b class="nc">&nbsp;    private final String baseURL = Constants.MARKET_ALERT_BASE_URL.value();</b>
+&nbsp;    //userId should be parsed from an encrypted config file for security,
+&nbsp;    //but that is beyond the scope of this assignment.
+<b class="nc">&nbsp;    private final String userId = Constants.USER_ID.value();</b>
+&nbsp;    @Override
+&nbsp;    public HttpResponse&lt;JsonNode&gt; postAlert(Alert alert) {
+<b class="nc">&nbsp;        Unirest.config().defaultBaseUrl(baseURL);</b>
+<b class="nc">&nbsp;        return Unirest.post(&quot;/Alert&quot;)</b>
+<b class="nc">&nbsp;                .header(&quot;Content-Type&quot;, &quot;application/json&quot;)</b>
+<b class="nc">&nbsp;                .body(alert)</b>
+<b class="nc">&nbsp;                .asJson();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public HttpResponse&lt;JsonNode&gt; purgeAlerts() {
+<b class="nc">&nbsp;        Unirest.config().defaultBaseUrl(baseURL);</b>
+<b class="nc">&nbsp;        return Unirest.delete(&quot;/Alert?userId={userId}&quot;)</b>
+<b class="nc">&nbsp;                .routeParam(&quot;userId&quot;, userId).asJson();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-10 13:18</div>
+</div>
+</body>
+</html>

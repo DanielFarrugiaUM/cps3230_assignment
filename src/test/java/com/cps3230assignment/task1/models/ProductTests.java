@@ -52,4 +52,14 @@ public class ProductTests {
         //Verify
         Assertions.assertEquals(600058, actual);
     }
+
+    @Test
+    public void testGetPriceAsCentsEmptyStr(){
+        //Setup
+        product.setPrice("");
+        //Exercise
+        int actual = product.getPriceAsCents();
+        //Verify
+        Assertions.assertEquals(0, actual);
+    }
 }
