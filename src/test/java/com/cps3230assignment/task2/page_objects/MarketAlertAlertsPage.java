@@ -4,7 +4,10 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,5 +98,18 @@ public class MarketAlertAlertsPage {
             if(!(xpathResults.size() == 1)) return false;
         }
         return true;
+    }
+
+    public String getIconFileName(){
+        //There will be only 1 table for this test
+        //therefore xpath is predefined
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
+        String fullPath =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("/html/body/div/main/table[1]/tbody/tr[1]/td/h4/img"))
+                ).getAttribute("src")
+                        .trim();
+        int index = fullPath.indexOf("icon-");
+        return fullPath.substring(index);
     }
 }

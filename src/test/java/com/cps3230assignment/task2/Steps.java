@@ -168,4 +168,30 @@ public class Steps {
     public void iShouldSeeAlerts(int arg0) {
         Assertions.assertEquals(arg0, alertsPage.numberOfAlerts());
     }
+
+    @Given("I am an administrator of the website and I upload an alert of type {int}")
+    public void iAmAnAdministratorOfTheWebsiteAndIUploadAnAlertOfTypeAlertType(int arg0) {
+        userId = Constants.USER_ID.value();
+        //Dummy Data
+        Alert alert = new Alert();
+        alert.setAlertType(arg0);
+        alert.setHeading("Jumper Windows 11 Laptop");
+        alert.setDescription("Jumper Windows 11 Laptop 1080P Display,12GB RAM 256GB SSD");
+        alert.setUrl("https://www.amazon.co.uk/Windows-Display-Ultrabook-Processor-Bluetooth");
+        alert.setImageUrl("https://m.media-amazon.com/images/I/712Xf2LtbJL._AC_SX679_.jpg");
+        alert.setPostedBy(userId);
+        alert.setPriceInCents(24999);
+
+        List<Alert> alerts = new ArrayList<>();
+        alerts.add(alert);
+
+        ScreenScraper uploadTool = new ScreenScraper();
+        uploadTool.setMarketAlertClient(new MarketAlertClient());
+        uploadTool.uploadAlerts(alerts);
+    }
+
+    @And("the icon displayed should be {string}")
+    public void theIconDisplayedShouldBe(String arg0) {
+        Assertions.assertEquals(arg0, alertsPage.getIconFileName());
+    }
 }
