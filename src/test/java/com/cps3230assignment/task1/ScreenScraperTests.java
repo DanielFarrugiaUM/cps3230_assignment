@@ -1,6 +1,5 @@
 package com.cps3230assignment.task1;
 
-import com.cps3230assignment.Constants;
 import com.cps3230assignment.task1.models.Alert;
 import com.cps3230assignment.task1.models.AlertType;
 import com.cps3230assignment.task1.models.Product;
@@ -19,7 +18,6 @@ import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -174,7 +172,7 @@ public class ScreenScraperTests {
         }
 
         //Exercise
-        boolean result = ss.uploadFiveAlerts(alerts);
+        boolean result = ss.uploadAlerts(alerts);
         //Verify
         Assertions.assertTrue(result);
         Mockito.verify(maClient, Mockito.times(5)).postAlert(any(Alert.class));
@@ -205,7 +203,7 @@ public class ScreenScraperTests {
         Mockito.when(maClient.postAlert(badAlert)).thenReturn(failureResponse);
 
         //Exercise
-        boolean result = ss.uploadFiveAlerts(alerts);
+        boolean result = ss.uploadAlerts(alerts);
 
         //Verify
         Assertions.assertFalse(result);

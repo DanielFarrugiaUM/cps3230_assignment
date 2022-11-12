@@ -24,6 +24,6 @@ public class Main {
 
         webDriver.quit();
 
-        screenScraper.uploadFiveAlerts(alerts);
+        screenScraper.uploadAlerts(alerts);
     }
 }

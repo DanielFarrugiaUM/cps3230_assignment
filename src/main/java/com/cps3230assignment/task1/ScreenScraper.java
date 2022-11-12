@@ -10,7 +10,6 @@ import com.cps3230assignment.task1.utils.IAlertClient;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +19,7 @@ public class ScreenScraper {
     private WebDriver webDriver;
     private MaltaparkHomePage homePage;
 
-    public void setMarketAlertClient(IAlertClient maClient) {
-        this.maClient = maClient;
-    }
+    public void setMarketAlertClient(IAlertClient maClient) { this.maClient = maClient; }
 
     public void setWebDriver(WebDriver webDriver){
         this.webDriver = webDriver;
@@ -75,12 +72,11 @@ public class ScreenScraper {
 
         return result;
     }
-    public boolean uploadFiveAlerts(List<Alert> alerts){
+    public boolean uploadAlerts(List<Alert> alerts){
 
-        for (int i = 0; i < 5; i++) {
-            Alert currentAlert = alerts.get(i);
+        for (Alert currentAlert : alerts) {
             HttpResponse<JsonNode> response = maClient.postAlert(currentAlert);
-            if(response.getStatus() != 201){
+            if (response.getStatus() != 201) {
                 maClient.purgeAlerts();
                 return false;
             }
