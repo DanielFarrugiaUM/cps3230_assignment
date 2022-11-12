@@ -21,7 +21,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginSteps {
+public class Steps {
 
     private WebDriver webDriver;
     private MarketAlertLogin loginPage;
@@ -35,6 +35,8 @@ public class LoginSteps {
         webDriver = new ChromeDriver();
         loginPage = new MarketAlertLogin(webDriver);
         alertsPage = new MarketAlertAlertsPage(webDriver);
+        //We want to clean the previous alerts before running any scenario
+        //consider those that include the number of alerts (eg > 5) as a condition
         IAlertClient alertClient = new MarketAlertClient();
         alertClient.purgeAlerts();
     }
@@ -76,7 +78,7 @@ public class LoginSteps {
     }
 
     //Alerts---------------------------------------------------------------------
-
+    //Scenario 3
     @Given("I am an administrator of the website and I upload {int} alerts")
     public void iAmAnAdministratorOfTheWebsiteAndIUploadAlerts(int arg0) {
         userId = Constants.USER_ID.value();
@@ -100,11 +102,6 @@ public class LoginSteps {
         uploadTool.setMarketAlertClient(new MarketAlertClient());
         uploadTool.uploadAlerts(alerts);
     }
-
-//    @Given("I am a user of marketalertum \\(B)")
-//    public void iAmAUserOfMarketalertumB() {
-//        //User id setup in @Before
-//    }
 
     @When("I view a list of alerts")
     public void iViewAListOfAlerts() {
@@ -141,5 +138,34 @@ public class LoginSteps {
     @And("each alert should contain a link to the original product website")
     public void eachAlertShouldContainALinkToTheOriginalProductWebsite() {
         Assertions.assertTrue(alertsPage.checkLinkIsPresent());
+    }
+    //Scenario 4
+    @Given("I am an administrator of the website and I upload more than {int} alerts")
+    public void iAmAnAdministratorOfTheWebsiteAndIUploadMoreThanAlerts(int arg0) {
+        userId = Constants.USER_ID.value();
+        //Dummy Data
+        Alert alert = new Alert();
+        alert.setAlertType(AlertType.ELECTRONICS.value());
+        alert.setHeading("Jumper Windows 11 Laptop");
+        alert.setDescription("Jumper Windows 11 Laptop 1080P Display,12GB RAM 256GB SSD");
+        alert.setUrl("https://www.amazon.co.uk/Windows-Display-Ultrabook-Processor-Bluetooth");
+        alert.setImageUrl("https://m.media-amazon.com/images/I/712Xf2LtbJL._AC_SX679_.jpg");
+        alert.setPostedBy(userId);
+        alert.setPriceInCents(24999);
+
+        List<Alert> alerts = new ArrayList<>();
+        //Upload one extra alert
+        for (int i = 0; i < arg0 + 1; i++) {
+            alerts.add(alert);
+        }
+
+        ScreenScraper uploadTool = new ScreenScraper();
+        uploadTool.setMarketAlertClient(new MarketAlertClient());
+        uploadTool.uploadAlerts(alerts);
+    }
+
+    @Then("I should see {int} alerts")
+    public void iShouldSeeAlerts(int arg0) {
+        Assertions.assertEquals(arg0, alertsPage.numberOfAlerts());
     }
 }

@@ -26,17 +26,8 @@ public class MarketAlertAlertsPage {
         alerts = webDriver.findElements(By.tagName("table"));
     }
 
-    public int getNoOfAlerts(){
+    public int numberOfAlerts(){
         return alerts.size();
-    }
-
-    public boolean checkAlertsContent(){
-        boolean found;
-        for (WebElement alert:
-             alerts) {
-
-        }
-        return false;
     }
 
     public boolean checkIconIsPresent(){
