@@ -12,6 +12,8 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        //This is some driver code, to check that the solution works
+        //when integrated with DOCs
         System.setProperty("webdriver.chrome.driver", Constants.WEBDRIVER_PATH.value());
         WebDriver webDriver = new ChromeDriver();
         MarketAlertClient client = new MarketAlertClient();

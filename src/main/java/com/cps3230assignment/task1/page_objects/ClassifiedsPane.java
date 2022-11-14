@@ -25,9 +25,10 @@ public class ClassifiedsPane {
         this.classifieds = classifieds;
     }
 
-    //The following setters are needed for testing
-    //because the normal flow constructor injection
-    //would take place, but not when creating a spy with mockito
+    //The following setters are needed for
+    // testing hen creating a mock with mockito
+    //because within production flow, constructor injection
+    //would take place.
     public void setWebDriver(WebDriver webDriver){
         this.webDriver = webDriver;
     }

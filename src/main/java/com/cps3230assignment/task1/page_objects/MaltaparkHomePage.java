@@ -21,7 +21,7 @@ public class MaltaparkHomePage {
 
     public void skipWarning() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
-        //While the following looks dodgy (as it is), I could find no
+        //While the following looks dodgy (as in fact it is), I could find no
         // other way to access the close button using wait. This is
         // probably due to how JS is manipulating the element in question.
         // The button appears and is covered immediately, so once it is
