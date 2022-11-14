@@ -5,3 +5,6 @@ Can also run the code for different users if needed by changing values in the co
 
 The Code is sorted by tasks. In the main folder there is everything required for task 1 in package Task 1.
 In the test fodler there is the testing for task 1 and the testing for task 2.
+
+coverage_report folder contains HTML report for task 1.
+web_testing_results folder contains HTML report for task 2.
